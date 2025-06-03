@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {Dimensions, Pressable, Text, TextInput, View, StyleSheet} from "react-native";
+import {Dimensions, Pressable, Text, TextInput, View, StyleSheet, TouchableOpacity} from "react-native";
 import { useSingupMutation } from "../../service/auth.service";
 
 const textInputWidth = Dimensions.get("window").width * 0.7;
@@ -114,9 +114,9 @@ const SingupScreen = ({ navigation }) => {
         </View>
       </View>
 
-      <Pressable onPress={onSubmit} style={styles.button}>
+      <TouchableOpacity onPress={onSubmit} style={styles.button}>
         <Text style={styles.buttonText}>Crear Cuenta</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

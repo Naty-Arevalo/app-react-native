@@ -26,8 +26,8 @@ const ModalCheck = ({ total, modalVisible, setModalVisible, clearCart }) => {
                 setModalVisible(!modalVisible);
                 clearCart();
                 setTimeout(() => {
-    setSuccessModal(true); // Mostrás el modal de éxito después de un breve delay
-  }, 300);
+                  setSuccessModal(true); 
+                }, 300);
               }}
             >
               <Text style={styles.textStyle}>Confirmar</Text>

@@ -1,10 +1,12 @@
 import react, { useState } from "react";
-import { View, Text, StyleSheet, FlatList, Pressable, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, FlatList, Pressable, ActivityIndicator, Image, TouchableOpacity} from "react-native";
 import { useSelector ,useDispatch} from "react-redux";
 import { useEffect } from "react";
 import  { removeFromCart,selectCartTotal, increaseQuantity,decreaseQuantity, clearCart, fetchCartFulfilled } from "../features/cart/cartSlice";
 import { useGetCartQuery,useSetCartMutation } from "../service/CartService";
 import ModalCheck from "../components/ModalCheck";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { COLORS } from "../constants/colors";
 
 
 const CarritoScreen = () => {
@@ -22,7 +24,7 @@ const CarritoScreen = () => {
   //carga inicial del carrito desde la base de datos
   useEffect(() => {
   if (isSuccess && remoteCart) {
-    dispatch(fetchCartFulfilled(remoteCart)); // podés hacer un action simple
+    dispatch(fetchCartFulfilled(remoteCart)); 
   }
 }, [isSuccess, remoteCart]);
 
@@ -43,32 +45,40 @@ const CarritoScreen = () => {
   }
   return (
     <View style={styles.container}>
+       
       {items.length === 0 ? (
         <Text style={styles.textVacio}>El carrito esta vacio</Text>
-      ): (
-        
+      ): (        
         <View>
         <FlatList
           data={items}
-          style={{backgroundColor:"#ccd5ae"}}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View style={styles.containerCart}>
+
               <View style={styles.containerSecond}>
+                
+                <Image
+                    source={{uri:item.image}}
+                    resizeMode='contain'
+                    style={styles.image}
+                />
                 <Text style={styles.textProduct}>{item.nombre}</Text>
                 <Pressable onPress={()=> dispatch(removeFromCart( {id: item.id}))} >
-                  <Text style={styles.icon}>🗑️ </Text>
+                  <AntDesign name="delete" size={24} color="black" />
                 </Pressable>
-              </View>           
+              </View>  
+
               <View style={styles.countSection}>
-                <Pressable style={styles.countButton} onPress={()=>dispatch(decreaseQuantity({ id: item.id}))}>
+                <TouchableOpacity style={styles.countButton} onPress={()=>dispatch(decreaseQuantity({ id: item.id}))}>
                   <Text style={styles.countText}>-</Text>
-                </Pressable>
+                </TouchableOpacity>
                  <Text style={styles.quantity}>{item.cantidad}</Text>
-                <Pressable style={styles.countButton} onPress={()=>dispatch(increaseQuantity({ id: item.id}))}>
+                <TouchableOpacity style={styles.countButton} onPress={()=>dispatch(increaseQuantity({ id: item.id}))}>
                   <Text style={styles.countText}>+</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
+
               <Text style={styles.price}> ${((item.precio * item.cantidad).toFixed(2))}</Text>
               
             </View>
@@ -76,18 +86,18 @@ const CarritoScreen = () => {
           ListFooterComponent={
             <>
             <View style={{ padding: 20 }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>
-                     Total: $ {total.toFixed(2)}
+                <Text style={styles.textTotal}>
+                    Total: $ {total.toFixed(2)}
                 </Text>
                 <Pressable onPress={()=> dispatch(clearCart())}>
-                  <Text>Vaciar todo el carrito</Text>
+                  <Text style={styles.textVaciar}>Vaciar carrito</Text>
                 </Pressable>
             </View>
-            <View>
-              <Pressable style={[styles.button, styles.buttonOpen]} 
+            <View style={{ alignItems:"center"}}>
+              <TouchableOpacity style={styles.button} 
               onPress={()=>setModalVisible(true) }>
                 <Text style={styles.textStyle}>COMPRAR</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
             <ModalCheck
               total={total} 
@@ -111,15 +121,20 @@ export default CarritoScreen;
 const styles = StyleSheet.create({
   container:{
     flex:1,
+    backgroundColor:COLORS.negroClaro,
+  },
+  containerSecond:{
+    flexDirection:"row",
+    justifyContent:"space-between",
   },
   containerCart: {
     flexDirection:'column',
-    backgroundColor: '#f9f9f9',
+    backgroundColor: COLORS.gris,
     margin:10,
     padding:15,
     borderRadius:10,
     elevation:3,
-    shadowColor:'#000',
+    shadowColor:COLORS.blanco,
     shadowOffset:{width:0, height:2},
     shadowOpacity:0.1,
     shadowRadius:4
@@ -130,44 +145,56 @@ const styles = StyleSheet.create({
     marginBottom:10,
     color:'#333'
   },
+  image:{
+    width:60,
+    height:60,
+    backgroundColor:COLORS.gris
+  },
   countSection:{
     flexDirection:'row',
     alignItems:'center',
     justifyContent:'flex-start',
-    marginBottom:10
+    marginBottom:10,
+    marginTop:10
   },
   countButton:{
     backgroundColor:'#ddd',
-    paddingHorizontal:12,
-    paddingVertical:6,
+    paddingHorizontal:10,
+    paddingVertical:3,
     borderRadius:5,
     marginHorizontal:5
   },
   quantity:{
     fontSize:16,
-    fontWeight:'500',
+    fontWeight:'700',
     color:"#555"
   },
   price:{
-    fontSize:16,
-    fontWeight:'600',
-    color:"#2a9d8f"
+    fontSize:18,
+    fontWeight:'bold',
+    color:COLORS.blanco,
+    textAlign:"right"
   },
-  containerSecond:{
-    flexDirection:"row",
-    justifyContent:"space-between"
+  textTotal:{
+    color:COLORS.blanco,
+    fontSize:25,
+    textAlign:'right'
   },
-  icon:{
-    fontSize:20
+  textVaciar:{
+    fontSize:18,
+    color:COLORS.blanco,
+    textDecorationLine:"underline"
   },
+  
   button:{
-    backgroundColor:'red',
+    backgroundColor:COLORS.azul,
     borderRadius:16,
     paddingVertical:15,
-    paddingHorizontal:30,
+    // paddingHorizontal:30,
     marginTop:10,
-    marginBottom:20
-    
+    marginBottom:20,
+    width:"80%",
+    alignItems:"center"
   },
   textVacio:{
     fontSize:20,
@@ -176,45 +203,4 @@ const styles = StyleSheet.create({
     textDecorationLine:'underline'
   },
 
-
- centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
 })

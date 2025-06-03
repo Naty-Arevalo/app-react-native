@@ -1,5 +1,5 @@
 import React ,{useEffect} from "react";
-import { View, Text, Image, Pressable, StyleSheet } from "react-native";
+import { View, Text, Image, Pressable, StyleSheet, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import CameraIcon from "../components/CameraIcon";
 import * as ImagePicker from "expo-image-picker";
@@ -9,8 +9,9 @@ import { useSQLiteContext } from "expo-sqlite";
 import { clearUser } from "../features/auth/authSlice";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useGetProfilePictureQuery} from "../service/userService";
-
 import {COLORS} from '../constants/colors'
+
+
 
 
 export default function ProfileScreen() {
@@ -24,15 +25,11 @@ export default function ProfileScreen() {
 
   const {data:profilePicture, isLoading,error} =  useGetProfilePictureQuery(localId)
 
-
-
-
 useEffect(()=>{
         if(profilePicture){
             dispatch(setProfilePicture(profilePicture.image))
          }
      },[profilePicture])
-
 
   const [triggerPutProfilePicture, result] = usePutProfilePictureMutation();
 
@@ -82,11 +79,18 @@ useEffect(()=>{
         console.log("error al cerrar la sesion", error);
       }
     };
-
-
+  
+    //constante para cambiar contraseña
+    const handleChangePassword = ()=>{
+       Alert.alert(
+          "Correo enviado!",
+          "Te enviamos un email para reestablecer la contraseña",
+          [{text: "ok", style:"default"}]
+        )
+    }
   return (
     <View style={styles.profileContainer}>
-      <Text style={styles.emailText}>Hola: {user}</Text>
+      <Text style={styles.emailText}>Hola! {user}</Text>
       <View style={styles.avatarContainer}>
         {image ? (
           <Image
@@ -106,9 +110,20 @@ useEffect(()=>{
           
         </Pressable>
       </View>
-      <Pressable onPress={logout}>
-        <Icon name="logout" size={32} color={"blue"} />
-      </Pressable>
+      <View style={styles.containerOptions}>
+        <Pressable onPress={logout} style={styles.optionButton}>
+          <Icon name="logout" size={32} color={COLORS.azul} />
+          <Text style={styles.optionText}>Cerrar sesion</Text>
+        </Pressable>
+      </View>
+      <View style={styles.containerOptions}> 
+        <Pressable style={styles.optionButton} 
+        onPress={()=>{handleChangePassword()}}>
+          <Icon name="lock" size={24} color={COLORS.azul} />
+          <Text style={styles.optionText}>Cambiar contraseña</Text>
+        </Pressable>
+      </View>
+      
     </View>
   );
 }
@@ -117,9 +132,8 @@ const styles = StyleSheet.create({
   profileContainer: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     paddingTop: 60,
-    backgroundColor: "#f2f2f2",
     backgroundColor:COLORS.negroClaro
   },
   avatarContainer: {
@@ -130,7 +144,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 80,
-    backgroundColor: "#7e57c2",
+    backgroundColor: COLORS.gris,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -143,14 +157,39 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    backgroundColor: "red",
+    backgroundColor: COLORS.gris,
     borderRadius: 20,
-    // padding: 10,
-    // zIndex: 10,
+
   },
   emailText: {
-    fontSize: 16,
-    color: "#333",
-    marginBottom: 12,
+    fontSize: 20,
+    color: COLORS.blanco,
+    marginBottom: 30,
   },
+  containerOptions: {
+    width: "80%",
+    paddingHorizontal: 20,
+    marginTop: 30,
+  },
+  optionButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: COLORS.gris,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    marginBottom: 16,
+    elevation: 2, // sombra Android
+    shadowColor: "#000", // sombra iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  optionText: {
+    color: "white",
+    fontSize: 16,
+    marginLeft: 10,
+    fontWeight: "500",
+  },
+
 });

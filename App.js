@@ -6,8 +6,6 @@ import { SQLiteProvider } from "expo-sqlite";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
-
-
 //funcion para inicializar la base de datos
 export const initializeDB= async(db) =>{
   try {

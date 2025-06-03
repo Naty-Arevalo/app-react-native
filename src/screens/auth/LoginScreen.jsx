@@ -90,9 +90,9 @@ export default function LoginScreen({navigation}) {
                 </Pressable>
             </View>
         </View>
-        <Pressable onPress={unSubmit} style={styles.button}>
+        <TouchableOpacity onPress={unSubmit} style={styles.button}>
             <Text style={styles.buttonText}>Iniciar Sesion</Text>
-        </Pressable>
+        </TouchableOpacity>
     </View>
   );
 }
@@ -152,5 +152,17 @@ const styles = StyleSheet.create({
     fontWeight:'800',
     textDecorationLine:'underline'
   },
+  button:{
+    backgroundColor:'red',
+    borderRadius:16,
+    paddingVertical:15,
+    paddingHorizontal:30,
+    marginTop:20
+    
+  },
+  buttonText:{
+    fontSize:16,
+    fontWeight:'bold'
+  }
+});
   
-})
