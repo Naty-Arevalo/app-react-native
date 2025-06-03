@@ -1,0 +1,49 @@
+{
+  "perros": {
+    "ropa": [
+      { "id": 1, "nombre": "Campera impermeable", "precio": 2500 },
+      { "id": 2, "nombre": "Chaleco de lana", "precio": 1800 }
+    ],
+    "alimento": [
+      { "id": 3, "nombre": "Alimento premium 10kg", "precio": 9500 },
+      { "id": 4, "nombre": "Snacks dentales", "precio": 1200 }
+    ],
+    "accesorios": [
+      { "id": 5, "nombre": "Collar de cuero", "precio": 2200 },
+      { "id": 6, "nombre": "Juguete mordedor", "precio": 900 }
+    ]
+  },
+  "gatos": {
+    "ropa": [
+      { "id": 7, "nombre": "Capa térmica", "precio": 2100 }
+    ],
+    "alimento": [
+      { "id": 8, "nombre": "Alimento seco 3kg", "precio": 4800 },
+      { "id": 9, "nombre": "Pouch de carne", "precio": 350 }
+    ],
+    "accesorios": [
+      { "id": 10, "nombre": "Rascador pequeño", "precio": 3200 },
+      { "id": 11, "nombre": "Collar con cascabel", "precio": 600 }
+    ]
+  },
+  "peces": {
+    "alimento": [
+      { "id": 12, "nombre": "Comida en escamas", "precio": 700 },
+      { "id": 13, "nombre": "Alimento para peces tropicales", "precio": 950 }
+    ],
+    "accesorios": [
+      { "id": 14, "nombre": "Filtro de agua", "precio": 4000 },
+      { "id": 15, "nombre": "Decoración para pecera", "precio": 1500 }
+    ]
+  },
+  "roedores": {
+    "alimento": [
+      { "id": 16, "nombre": "Mix de semillas", "precio": 1200 },
+      { "id": 17, "nombre": "Pellets para hámster", "precio": 850 }
+    ],
+    "accesorios": [
+      { "id": 18, "nombre": "Rueda de ejercicio", "precio": 2000 },
+      { "id": 19, "nombre": "Casita de madera", "precio": 2700 }
+    ]
+  }
+}
