@@ -1,8 +1,8 @@
 import react from "react";
 import { View, Text } from "react-native";
 import { useSelector } from "react-redux";
-import Foundation from "@expo/vector-icons/Foundation";
 import {selectTotalQuantity} from "../features/cart/cartSlice";
+import Foundation from "@expo/vector-icons/Foundation";
 import { COLORS } from "../constants/colors";
 
 const CartTabIcon = ({ focused }) => {

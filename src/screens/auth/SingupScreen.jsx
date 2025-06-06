@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import {Dimensions, Pressable, Text, TextInput, View, StyleSheet, TouchableOpacity} from "react-native";
+import {Pressable, Text, TextInput, View, StyleSheet, TouchableOpacity} from "react-native";
 import { useSingupMutation } from "../../service/auth.service";
+import { COLORS } from "../../constants/colors";
 
-const textInputWidth = Dimensions.get("window").width * 0.7;
 
 const SingupScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -13,22 +13,19 @@ const SingupScreen = ({ navigation }) => {
 
 
   const [triggerSingup, result] = useSingupMutation();
-  console.log(result);
+  // console.log(result);
 
   const isValidEmail = (email)=>{
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email)
   }
 
-  const onSubmit = () => {
-    
+  const onSubmit = () => {   
       let hasError= false
-
     if (!isValidEmail(email)){
       setErrorEmail("El email no es válido")
       hasError= true
     }
-
     if (password !== repeatPasword){
       setErrorPassword("Las contraseñas no coinciden")
       hasError= true
@@ -36,7 +33,6 @@ const SingupScreen = ({ navigation }) => {
     if(hasError) return;
 
     triggerSingup({ email, password });
-    
     
   };
 
@@ -48,10 +44,11 @@ const SingupScreen = ({ navigation }) => {
     }
   }, [result]);
 
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>La App de Naty</Text>
-      <Text>Registrate</Text>
+      <Text style={styles.title}>Huella Market</Text>
+      <Text style={styles.textRegister}>Registrate</Text>
       <View style={styles.tarjeta}>
         <TextInput
           onChangeText={(text) => {
@@ -71,7 +68,7 @@ const SingupScreen = ({ navigation }) => {
               setErrorEmail("El email no es valido")
             }
           }}
-            
+           
           placeholderTextColor="#ebebeb"
           placeholder="Email"
           style={styles.input}
@@ -107,7 +104,7 @@ const SingupScreen = ({ navigation }) => {
       </View>
       <View>
         <View style={styles.boxSingup}>
-          <Text>Ya tienes una cuenta??</Text>
+          <Text style={styles.textRegister}>Ya tienes una cuenta??</Text>
           <Pressable onPress={() => navigation.navigate("Login")}>
             <Text style={styles.singup}>Iniciar Sesion</Text>
           </Pressable>
@@ -127,11 +124,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "white",
+    backgroundColor: COLORS.negroClaro,
   },
   title: {
-    fontSize: 40,
-    fontWeight: "bold",
+    fontSize: 50,
+    color: COLORS.blanco,
+    fontFamily:'gentiumPlus'
   },
   errorText:{
         color:'red',
@@ -140,14 +138,14 @@ const styles = StyleSheet.create({
     },
     tarjeta:{
         margin:20,
-        backgroundColor:'white',
+        backgroundColor:COLORS.gris,
         borderRadius:20,
         width:'90%',
         padding:20,
-        shadowColor:'#000',
+        shadowColor:COLORS.blanco,
         shadowOffset:{
             width:0,
-            height:2
+            height:3
         },
         shadowOpacity:0.25,
         shadowRadius:4,
@@ -156,7 +154,7 @@ const styles = StyleSheet.create({
     input:{
         padding:10,
         borderRadius:16,
-        backgroundColor:'violet',
+        backgroundColor:COLORS.azul,
         margin:5
     },
      boxSingup:{
@@ -165,12 +163,15 @@ const styles = StyleSheet.create({
         gap:10,
   },
    singup:{
-    color: 'blue',
+    color: COLORS.blanco,
     fontWeight:'800',
     textDecorationLine:'underline'
   },
+  textRegister:{
+    color:COLORS.blanco
+  },
   button:{
-    backgroundColor:'red',
+    backgroundColor:COLORS.azul,
     borderRadius:16,
     paddingVertical:15,
     paddingHorizontal:30,

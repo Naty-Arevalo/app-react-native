@@ -5,6 +5,8 @@ import {BlurView} from 'expo-blur'
 const ModalCheck = ({ total, modalVisible, setModalVisible, clearCart }) => {
 
     const [successModal, setSuccessModal] = useState(false)
+
+    
   return (
     <View>
       <Modal
@@ -15,10 +17,9 @@ const ModalCheck = ({ total, modalVisible, setModalVisible, clearCart }) => {
       >
         <View style={styles.centeredView}>
             <BlurView intensity={100} tint="dark" style={StyleSheet.absoluteFill} />
-
           <View style={styles.modalView}>
             <Text style={styles.modalText}>
-              Confirmas la compra por $ {total.toFixed(2)} ?
+              Confirmas la compra por: $ {total.toFixed(2)} ?
             </Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
@@ -32,11 +33,9 @@ const ModalCheck = ({ total, modalVisible, setModalVisible, clearCart }) => {
             >
               <Text style={styles.textStyle}>Confirmar</Text>
             </Pressable>
-
             <Pressable
               style={[styles.button, styles.buttonCancel]}
-              onPress={() => setModalVisible(false)}
-            >
+              onPress={() => setModalVisible(false)}>
               <Text style={styles.textStyle}>Cancelar</Text>
             </Pressable>
           </View>
@@ -55,20 +54,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalView: {
-    // margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
-    zIndex:1,
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 4,
-    elevation: 5,
+    gap:8
   },
   button: {
     borderRadius: 20,

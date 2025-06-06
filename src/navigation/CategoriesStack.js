@@ -16,15 +16,20 @@ export default function CategoriesStack(){
             },
             headerTitleStyle:{
                 color:COLORS.blanco,
-                fontSize:16
-            }
+                fontSize:20
+            },
+            headerTintColor:COLORS.blanco
             }}>
             
             <Stack.Screen 
             name='Buscá el producto en base a tu mascota!' 
             component={InfoScreeen} 
             />
-            <Stack.Screen name= 'productos' component={ProductosScreen} options={({route}) => ({title: route.params.nombre})}/>
+            <Stack.Screen name= 'productos' component={ProductosScreen} 
+                options={
+                    ({route}) => ({title: route.params.nombre})
+            }/>
+
         </Stack.Navigator>
     )
 }

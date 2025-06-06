@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Pressable, Image, TouchableOpacity} from 'react-native';
-import { useGetProductsByCategoryQuery } from '../service/shopService';
+import { useEffect, useState } from 'react';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import { useDispatch } from 'react-redux';
+import { useGetProductsByCategoryQuery } from '../service/shopService';
 import { addToCart } from '../features/cart/cartSlice';
 import {COLORS} from '../constants/colors'
 import Toast from 'react-native-toast-message';
@@ -52,25 +52,21 @@ export default function ProductosScreen({ route}) {
         <View style={styles.tipoContainer}>
           <View style={styles.card}>
             <Image
-            source={{uri:item.image}}
-            resizeMode='contain'
-            style={styles.image}
+              source={{uri:item.image}}
+              resizeMode='contain'
+              style={styles.image}
             />
             <Text style={styles.text}>{item.nombre} </Text>
             <Text style={styles.text}>${item.precio}</Text>
             <View style={styles.conteinerButton}>
-            <TouchableOpacity onPress={()=> handleAgregarAlCarrito(item)} style={styles.button}>
-              <Text style={styles.textButton}>Agregar al carrito</Text>
-            </TouchableOpacity>
-          </View>
-            
+              <TouchableOpacity onPress={()=> handleAgregarAlCarrito(item)} style={styles.button}>
+                <Text style={styles.textButton}>Agregar al carrito</Text>
+              </TouchableOpacity>
+            </View>  
           </View>              
-          
         </View>
-       
       )}
     />
-
   );
 }
 
@@ -132,5 +128,8 @@ const styles = StyleSheet.create({
   },
   textButton:{
     color:COLORS.blanco,
+  },
+  loading:{
+    color: COLORS.azul
   }
 });

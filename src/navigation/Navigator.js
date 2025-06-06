@@ -1,16 +1,15 @@
-import React from 'react';
-import {View,Text} from 'react-native'
+
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import ProfileScreen from '../screens/ProfileScreen'
 import CategoriesStack from './CategoriesStack';
 import HomeScreen from '../screens/HomeScreen';
 import CarritoScreen from '../screens/CarritoScreen';
+import { COLORS } from '../constants/colors';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { COLORS } from '../constants/colors';
-import Foundation from '@expo/vector-icons/Foundation';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import CartTAbIcon from '../components/CartTabIcon';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -62,7 +61,6 @@ export default function Navigator(){
                         name="appstore1"
                         size={32}
                         color={focused ? COLORS.azul : COLORS.blanco }
-
                         />
                 )
                 }}
@@ -76,7 +74,6 @@ export default function Navigator(){
                         name="user-large"
                         size={32}
                         color={focused ? COLORS.azul : COLORS.blanco }
-
                         />
                 )
                 }}

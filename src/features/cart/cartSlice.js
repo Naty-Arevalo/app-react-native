@@ -1,16 +1,16 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 
-//para sumar el total final del carrito
-// Selector base: devuelve el array de items
+
+// devuelve el array de items
 export const selectCartItems = (state) => state.cart.items;
 
-// Selector memorizado: calcula el total solo si items cambió
+// devuelve el precio total del carrito
 export const selectCartTotal = createSelector(
   [selectCartItems],
   (items) =>
     items.reduce((acc, item) => acc + item.precio * item.cantidad, 0)
 );
-//cantidad de elementos en el carrito, para su notificacion
+//cantidad de elementos en el carrito
 export const selectTotalQuantity = createSelector(
     [selectCartItems],
     (items) =>items.reduce((sum,item) => sum + item.cantidad, 0)
@@ -53,9 +53,6 @@ export const cartSlice= createSlice({
         clearCart(state){
             state.items = [];
         },
-        precioTotal(state){
-            state.items.reduce((acc,prod) => acc + prod.precio * prod.cantidad, 0)
-        },
         fetchCartFulfilled(state,action){
             state.items= action.payload || [];
         }
@@ -67,5 +64,5 @@ export const {addToCart, removeFromCart, clearCart,increaseQuantity,decreaseQuan
 export default cartSlice.reducer
 
 
-//addToCart, removeFromCart, clearCart son las acciones que se exportaran para usar en otros componentes, serian el cartContext de react
+//addToCart, removeFromCart, clearCart son las acciones que se exportaran para usar en otros componentes
 //una vez hecho se agrega el reduce al store para que este en toda la app

@@ -4,7 +4,8 @@ import RootStack from './src/navigation/RootStack'
 import { StatusBar } from "expo-status-bar";
 import { SQLiteProvider } from "expo-sqlite";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import { useState, useEffect } from 'react';
+import { loadFonts } from './src/constants/fonts';
 
 //funcion para inicializar la base de datos
 export const initializeDB= async(db) =>{
@@ -23,8 +24,20 @@ export const initializeDB= async(db) =>{
   }
 }
 
-
+  
 export default function App(){
+
+ const [fontsLoaded,setFontsLoaded] = useState(false)
+
+    useEffect(() => {
+     (async()=>{
+        await loadFonts()
+        setFontsLoaded(true)
+     })(); 
+      
+    }, [])
+    
+    if (!fontsLoaded) return null
 
 
 

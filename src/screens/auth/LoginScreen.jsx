@@ -1,13 +1,15 @@
-import React, { use, useEffect, useState } from "react";
-import {  View,StyleSheet,TextInput, TouchableOpacity,Text,Pressable, Dimensions} from "react-native";
-import { useLoginMutation } from "../../service/auth.service";
+import React, { useEffect, useState } from "react";
+import {  View,StyleSheet,TextInput, TouchableOpacity,Text,Pressable} from "react-native";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../features/auth/authSlice";
+import { useLoginMutation } from "../../service/auth.service";
 import { useSQLiteContext } from "expo-sqlite";  //acceder a la base de datos
+import { setUser } from "../../features/auth/authSlice";
+import { COLORS } from "../../constants/colors";
 
-const textInputWidth = Dimensions.get('window').width *0.7
+
 
 export default function LoginScreen({navigation}) {
+
     
     const db= useSQLiteContext()  //toma la db creada en app.js
     const dispatch = useDispatch() // funcion que dispara una accion
@@ -18,7 +20,7 @@ export default function LoginScreen({navigation}) {
     const [triggerLogin, result] = useLoginMutation()
 
     const unSubmit = ()=>{
-        console.log("presionaste email",email, 'pasword', password)
+        //console.log("presionaste email",email, 'pasword', password)
         triggerLogin({email, password})
      }
 
@@ -64,25 +66,23 @@ export default function LoginScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.title}>App de Naty</Text>
+        <Text style={styles.title}>Huella Market</Text>
         <Text style={styles.iniciarSesion}>Iniciar Sesion</Text>
         <View style={styles.tarjeta}>
             <TextInput
             onChangeText={(text) =>setEmail(text)}
-            placeholderTextColor='#ebebeb'
+            placeholderTextColor= {COLORS.blanco}
             placeholder="Email" 
             style={styles.input}
             />
             <TextInput
             onChangeText={(text) =>setPasword(text)}
-            placeholderTextColor='#ebebeb'
+            placeholderTextColor={COLORS.blanco}
             placeholder="Pasword" 
             style={styles.input}
             secureTextEntry
             />
-
             {loginError !== '' && (<Text style={styles.errorText}>{loginError}</Text>)}
-
             <View style={styles.boxSingup}>
                 <Text style={styles.textBoxSingup}>No tienes una cuenta?</Text>
                 <Pressable onPress={()=> navigation.navigate('Singup')}>
@@ -91,7 +91,7 @@ export default function LoginScreen({navigation}) {
             </View>
         </View>
         <TouchableOpacity onPress={unSubmit} style={styles.button}>
-            <Text style={styles.buttonText}>Iniciar Sesion</Text>
+            <Text style={styles.buttonText}>Iniciar Sesión</Text>
         </TouchableOpacity>
     </View>
   );
@@ -102,27 +102,31 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        backgroundColor:COLORS.negroClaro
     },
     title:{
-        fontSize:40,
-        fontWeight:'bold',
-        padding:10
+        fontSize:50,
+        padding:10,
+        color:COLORS.azul,
+        fontFamily:'gentiumPlus'
     },
     iniciarSesion:{
         marginTop:20,
         fontSize:24,
+        color:COLORS.blanco,
+        fontFamily:'gentiumPlus'
     },
     tarjeta:{
         margin:20,
-        backgroundColor:'white',
+        backgroundColor:COLORS.gris,
         borderRadius:20,
         width:'90%',
         padding:20,
-        shadowColor:'#000',
+        shadowColor:COLORS.blanco,
         shadowOffset:{
             width:0,
-            height:2
+            height:3
         },
         shadowOpacity:0.25,
         shadowRadius:4,
@@ -131,7 +135,7 @@ const styles = StyleSheet.create({
     input:{
         padding:10,
         borderRadius:16,
-        backgroundColor:'violet',
+        backgroundColor:COLORS.azul,
         margin:5
     },
     errorText:{
@@ -153,7 +157,7 @@ const styles = StyleSheet.create({
     textDecorationLine:'underline'
   },
   button:{
-    backgroundColor:'red',
+    backgroundColor:COLORS.azul,
     borderRadius:16,
     paddingVertical:15,
     paddingHorizontal:30,

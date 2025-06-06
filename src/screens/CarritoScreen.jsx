@@ -1,9 +1,8 @@
-import react, { useState } from "react";
+import react, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, FlatList, Pressable, ActivityIndicator, Image, TouchableOpacity} from "react-native";
 import { useSelector ,useDispatch} from "react-redux";
-import { useEffect } from "react";
-import  { removeFromCart,selectCartTotal, increaseQuantity,decreaseQuantity, clearCart, fetchCartFulfilled } from "../features/cart/cartSlice";
 import { useGetCartQuery,useSetCartMutation } from "../service/CartService";
+import { removeFromCart,selectCartTotal, increaseQuantity,decreaseQuantity, clearCart, fetchCartFulfilled } from "../features/cart/cartSlice";
 import ModalCheck from "../components/ModalCheck";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { COLORS } from "../constants/colors";
@@ -12,7 +11,6 @@ import { COLORS } from "../constants/colors";
 const CarritoScreen = () => {
   const userId = useSelector((state) => state.authReducer.value.localId);
   const items = useSelector((state) => state.cart.items || []);
-  console.log("carrito completo", items);
   const total= useSelector(selectCartTotal)
   const dispatch = useDispatch()
 
@@ -29,7 +27,7 @@ const CarritoScreen = () => {
 }, [isSuccess, remoteCart]);
 
 
-//actualiza la base de datos remota cuando cambian los items
+//actualiza la base de datos cuando cambian los items
   useEffect(() => {
   if (userId) {
     setCart({userId, items });
@@ -38,16 +36,18 @@ const CarritoScreen = () => {
 
  if (isLoading) {
     return (
-      <View style={[styles.container, { justifyContent: "center", alignItems: "center" }]}>
-        <ActivityIndicator size="large" color="#0000ff" />
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color={COLORS.azul} />
       </View>
     );
   }
   return (
-    <View style={styles.container}>
-       
+    <View style={styles.container}>   
       {items.length === 0 ? (
-        <Text style={styles.textVacio}>El carrito esta vacio</Text>
+        <>
+        <Text style={styles.textVacio}>El carrito esta vacío</Text>
+        <Text style={styles.textVacioSecond}>Navegue hacia nuestras categorías para elegir sus productos</Text>
+        </>
       ): (        
         <View>
         <FlatList
@@ -55,7 +55,6 @@ const CarritoScreen = () => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View style={styles.containerCart}>
-
               <View style={styles.containerSecond}>
                 
                 <Image
@@ -71,11 +70,11 @@ const CarritoScreen = () => {
 
               <View style={styles.countSection}>
                 <TouchableOpacity style={styles.countButton} onPress={()=>dispatch(decreaseQuantity({ id: item.id}))}>
-                  <Text style={styles.countText}>-</Text>
+                  <Text>-</Text>
                 </TouchableOpacity>
                  <Text style={styles.quantity}>{item.cantidad}</Text>
                 <TouchableOpacity style={styles.countButton} onPress={()=>dispatch(increaseQuantity({ id: item.id}))}>
-                  <Text style={styles.countText}>+</Text>
+                  <Text>+</Text>
                 </TouchableOpacity>
               </View>
 
@@ -123,10 +122,6 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor:COLORS.negroClaro,
   },
-  containerSecond:{
-    flexDirection:"row",
-    justifyContent:"space-between",
-  },
   containerCart: {
     flexDirection:'column',
     backgroundColor: COLORS.gris,
@@ -139,16 +134,20 @@ const styles = StyleSheet.create({
     shadowOpacity:0.1,
     shadowRadius:4
   },
+  containerSecond:{
+    flexDirection:"row",
+    justifyContent:"space-between",
+  },
+    image:{
+    width:60,
+    height:60,
+    backgroundColor:COLORS.gris
+  },
   textProduct:{
     fontSize:18,
     fontWeight:'600',
     marginBottom:10,
     color:'#333'
-  },
-  image:{
-    width:60,
-    height:60,
-    backgroundColor:COLORS.gris
   },
   countSection:{
     flexDirection:'row',
@@ -190,17 +189,28 @@ const styles = StyleSheet.create({
     backgroundColor:COLORS.azul,
     borderRadius:16,
     paddingVertical:15,
-    // paddingHorizontal:30,
     marginTop:10,
     marginBottom:20,
     width:"80%",
     alignItems:"center"
   },
+  textStyle:{
+    fontSize:16,
+    fontWeight:"bold"
+  },
+
   textVacio:{
-    fontSize:20,
+    fontSize:25,
     textAlign:'center',
     marginTop:30,
-    textDecorationLine:'underline'
+    textDecorationLine:'underline',
+    color:COLORS.blanco
+  },
+  textVacioSecond:{
+    color:COLORS.blanco,
+    fontSize:16,
+    textAlign:"center",
+    marginTop:25
   },
 
 })

@@ -1,17 +1,15 @@
-import React ,{useEffect} from "react";
+import {useEffect} from "react";
 import { View, Text, Image, Pressable, StyleSheet, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import CameraIcon from "../components/CameraIcon";
-import * as ImagePicker from "expo-image-picker";
-import { setProfilePicture } from "../features/user/userSlice";
-import { usePutProfilePictureMutation } from "../service/userService";
 import { useSQLiteContext } from "expo-sqlite";
+import { useGetProfilePictureQuery} from "../service/userService";
+import * as ImagePicker from "expo-image-picker";
+import CameraIcon from "../components/CameraIcon";
+import { usePutProfilePictureMutation } from "../service/userService";
+import { setProfilePicture } from "../features/user/userSlice";
 import { clearUser } from "../features/auth/authSlice";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { useGetProfilePictureQuery} from "../service/userService";
 import {COLORS} from '../constants/colors'
-
-
 
 
 export default function ProfileScreen() {
@@ -41,10 +39,7 @@ useEffect(()=>{
   };
 
   const pickImage = async () => {
-    console.log("pickimage se ejecuto");
-
     const isPermissionOk = await verifyCameraPermissions();
-    console.log("permiso ok:", isPermissionOk);
 
     if (isPermissionOk) {
       let result = await ImagePicker.launchCameraAsync({
@@ -53,7 +48,6 @@ useEffect(()=>{
         base64: true, //guardar en modo texto para guardarlo en firebase
         quality: 0.6,
       });
-      console.log("resultado camara:", result);
 
       if (!result.canceled) {
         dispatch(
@@ -72,14 +66,15 @@ useEffect(()=>{
       try {
         const result = await db.runAsync(
           "DELETE FROM sessions WHERE localId=$localId",
-          { $localId: localId }
+          { $localId: localId } 
         );
         dispatch(clearUser());
+        console.log("sesion cerrada",  result)
       } catch (error) {
         console.log("error al cerrar la sesion", error);
       }
     };
-  
+
     //constante para cambiar contraseña
     const handleChangePassword = ()=>{
        Alert.alert(
@@ -113,7 +108,7 @@ useEffect(()=>{
       <View style={styles.containerOptions}>
         <Pressable onPress={logout} style={styles.optionButton}>
           <Icon name="logout" size={32} color={COLORS.azul} />
-          <Text style={styles.optionText}>Cerrar sesion</Text>
+          <Text style={styles.optionText}>Cerrar sesión</Text>
         </Pressable>
       </View>
       <View style={styles.containerOptions}> 

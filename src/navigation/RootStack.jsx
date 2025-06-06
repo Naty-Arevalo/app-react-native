@@ -1,9 +1,9 @@
+import {View, ActivityIndicator} from 'react-native'
 import { NavigationContainer } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { useGetCartQuery } from "../service/CartService";
 import AuthNavigator from './AuthNavigator'
 import Navigator from './Navigator'
-import {View, ActivityIndicator} from 'react-native'
 import Toast from 'react-native-toast-message'
 
 
