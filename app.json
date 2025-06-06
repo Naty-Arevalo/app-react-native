@@ -20,7 +20,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.narev.appprueba"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -28,6 +29,11 @@
     "plugins": [
       "expo-sqlite",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ea52cd8f-94fc-42c0-be43-a2fcb5548144"
+      }
+    }
   }
 }
